@@ -1,5 +1,5 @@
 class TriggerStatuses:
-    trigger_statuses = [
+    statuses = [
         "Принят оператором",
         "Передан курьеру",
         "Готов для выдачи"

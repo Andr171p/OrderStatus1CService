@@ -19,14 +19,3 @@ def extract_orders_data(response):
     else:
         logging.warning(request_logging.none_json_response)
         return -1
-
-
-def update_filter_orders(data, new_data):
-    result = []
-
-    numbers = [number['number'] for number in data]
-    new_numbers = [number['number'] for number in new_data]
-
-    for order in new_data:
-        if order['number'] not in numbers:
-            result.append(order)
