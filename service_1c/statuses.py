@@ -1,6 +1,9 @@
+import asyncio
+
 from service_1c.http_session import HTTPSession
 from service_1c.config import RequestData, RequestHeaders
 from service_1c import models
+from service_1c.utils import extract_orders_data
 
 
 class Statuses(HTTPSession):
@@ -24,7 +27,8 @@ class Statuses(HTTPSession):
         }
         data = models.OrdersModel.model_validate(data)
         response = await self.post_request(data=data.model_dump())
-        return response
+        result = extract_orders_data(response=response)
+        return result
 
     async def flyer_response(self, telefon: str):
         data = {
@@ -45,3 +49,8 @@ class Statuses(HTTPSession):
         data = models.HistoryModel.model_validate(data)
         response = await self.post_request(data=data.model_dump())
         return response
+
+
+s = Statuses()
+r = asyncio.run(s.orders_response())
+print(r)
