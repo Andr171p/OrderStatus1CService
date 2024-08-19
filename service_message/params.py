@@ -4,3 +4,7 @@ class TriggerStatuses:
         "Передан курьеру",
         "Готов для выдачи"
     ]
+
+
+class SettingsSender:
+    timeout = 60

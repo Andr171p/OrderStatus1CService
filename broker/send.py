@@ -14,4 +14,4 @@ class BrokerSendMessage(BrokerConnection):
             body=message
         )
         logging.info(f"[x] SENT: {message}")
-        self.connection.close()
+        # self.connection.close()

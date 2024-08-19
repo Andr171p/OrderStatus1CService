@@ -1,9 +1,9 @@
-import asyncio
-
 from service_1c.http_session import HTTPSession
 from service_1c.config import RequestData, RequestHeaders
 from service_1c import models
 from service_1c.utils import extract_orders_data
+
+from misc.format_data import format_telefon
 
 
 class Statuses(HTTPSession):
@@ -12,6 +12,7 @@ class Statuses(HTTPSession):
         self.request_data = RequestData()
 
     async def order_response(self, telefon: str):
+        telefon = format_telefon(telefon=telefon)
         data = {
             'command': f'{self.request_data.order}',
             'telefon': f'{telefon}'
@@ -31,6 +32,7 @@ class Statuses(HTTPSession):
         return result
 
     async def flyer_response(self, telefon: str):
+        telefon = format_telefon(telefon=telefon)
         data = {
             'command': f'{self.request_data.flyer}',
             'telefon': f'{telefon}',
@@ -41,6 +43,7 @@ class Statuses(HTTPSession):
         return response
 
     async def history_response(self, telefon: str):
+        telefon = format_telefon(telefon=telefon)
         data = {
             'command': f'{self.request_data.history}',
             'telefon': f'{telefon}',
@@ -49,8 +52,3 @@ class Statuses(HTTPSession):
         data = models.HistoryModel.model_validate(data)
         response = await self.post_request(data=data.model_dump())
         return response
-
-
-s = Statuses()
-r = asyncio.run(s.orders_response())
-print(r)

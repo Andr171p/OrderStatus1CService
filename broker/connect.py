@@ -9,4 +9,9 @@ class BrokerConnection:
         pika.URLParameters(ConnectData.URL)
     )
     channel = connection.channel()
-    channel.queue_declare(SettingsBroker.queue_name)
+    # channel.queue_declare(SettingsBroker.queue_name)
+
+    @staticmethod
+    def create_queue(channel):
+        channel.queue_declare(SettingsBroker.queue_name)
+

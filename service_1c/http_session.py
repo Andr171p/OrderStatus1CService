@@ -33,10 +33,3 @@ class HTTPSession(RequestHeaders):
                         return result
         except Exception as _ex:
             logging.warning(_ex)
-
-
-ht = HTTPSession()
-d = {'command': RequestData.orders,
-     'active': 'true'}
-r = asyncio.run(ht.post_request(data=d))
-print(r)
