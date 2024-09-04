@@ -1,10 +1,8 @@
 import aiohttp
 
-import asyncio
-
 import logging
 
-from service_1c.config import RequestHeaders, RequestLoggingMessage, RequestData
+from service_1c.settings.config import RequestHeaders, RequestLoggingMessage
 
 
 class HTTPSession(RequestHeaders):

@@ -2,12 +2,12 @@ import asyncio
 
 import logging
 
-from service_1c.statuses import Statuses
+from service_1c.api import Statuses
 
 from service_message.params import TriggerStatuses, SettingsSender
 from service_message.tamplates import MessageTemplate
 
-from broker.send import BrokerSendMessage
+from rmq.publisher import BrokerSendMessage
 
 
 logging.basicConfig(level=logging.INFO)
@@ -52,3 +52,6 @@ class MessageSender:
                 await self.broadcast(data=result)
 
             self.old_data = self.new_data
+
+
+message_sender = MessageSender()

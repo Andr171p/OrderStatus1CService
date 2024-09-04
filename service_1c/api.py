@@ -1,6 +1,6 @@
-from service_1c.http_session import HTTPSession
-from service_1c.config import RequestData, RequestHeaders
-from service_1c import models
+from service_1c.server.http_session import HTTPSession
+from service_1c.settings.config import RequestData, RequestHeaders
+from service_1c.schemas import request_models
 from service_1c.utils import extract_orders_data
 
 from misc.format_data import format_telefon
@@ -17,7 +17,7 @@ class Statuses(HTTPSession):
             'command': f'{self.request_data.order}',
             'telefon': f'{telefon}'
         }
-        data = models.OrderModel.model_validate(data)
+        data = request_models.OrderModel.model_validate(data)
         response = await self.post_request(data=data.model_dump())
         return response
 
@@ -26,7 +26,7 @@ class Statuses(HTTPSession):
             'command': f'{self.request_data.orders}',
             'active': 'true'
         }
-        data = models.OrdersModel.model_validate(data)
+        data = request_models.OrdersModel.model_validate(data)
         response = await self.post_request(data=data.model_dump())
         result = extract_orders_data(response=response)
         return result
@@ -38,7 +38,7 @@ class Statuses(HTTPSession):
             'telefon': f'{telefon}',
             'project': f'{self.request_headers.project}'
         }
-        data = models.FlyerModel.model_validate(data)
+        data = request_models.FlyerModel.model_validate(data)
         response = await self.post_request(data=data.model_dump())
         return response
 
@@ -49,6 +49,6 @@ class Statuses(HTTPSession):
             'telefon': f'{telefon}',
             'project': f'{self.request_headers.project}'
         }
-        data = models.HistoryModel.model_validate(data)
+        data = request_models.HistoryModel.model_validate(data)
         response = await self.post_request(data=data.model_dump())
         return response
