@@ -1,11 +1,12 @@
 import asyncio
 
-from service.push import message_sender
+from app.worker import work
 
 
-async def main():
-    await message_sender.start_sending()
+async def main() -> None:
+    await work()
 
 
-if __name__ == '__main__':
-    asyncio.run(main())
+if __name__ == "__main__":
+    loop = asyncio.get_event_loop()
+    loop.run_until_complete(main())

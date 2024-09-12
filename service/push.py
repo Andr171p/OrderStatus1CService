@@ -6,10 +6,17 @@ from misc.tamplates import MessageTemplate
 
 class PushMessage:
     connection = RedisConnection()
-    redis = RedisSetData(connection=connection)
+    redis = None
+
+    @classmethod
+    async def connect(cls) -> RedisSetData:
+        redis = await cls.connection.connect()
+        cls.redis = RedisSetData(connection=redis)
+        return cls.redis
 
     @classmethod
     async def push(cls, data: dict) -> None:
+        cls.redis = await cls.connect()
         message = MessageTemplate(order=data).message()
         await cls.redis.set_data(
             key=message['number'],

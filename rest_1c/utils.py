@@ -30,3 +30,7 @@ def extract_flyers_data(json_):
         return flyers
     else:
         return -1
+
+
+def is_empty(data: list) -> bool:
+    return True if len(data) == 0 else False

@@ -1,1 +1,1 @@
-StatusService: python main.py
+StatusService: celery -A tasks:app worker --loglevel=INFO --pool=solo

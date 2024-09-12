@@ -61,7 +61,3 @@ class StatusAPI(HTTPSession):
 
 
 status_api = StatusAPI()
-import asyncio
-
-r = asyncio.run(status_api.flyers(telefon='89829764729'))
-print(r)
