@@ -18,6 +18,7 @@ class PushMessage:
     async def push(cls, data: dict) -> None:
         cls.redis = await cls.connect()
         message = MessageTemplate(order=data).message()
+        print(message)
         await cls.redis.set_data(
             key=message['number'],
             value=message['message']

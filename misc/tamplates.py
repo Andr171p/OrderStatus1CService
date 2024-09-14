@@ -12,7 +12,7 @@ class StatusMessage:
 
 
 class MessageTemplate:
-    def __init__(self, order):
+    def __init__(self, order: dict) -> None:
         self.status = order['status']
         self.number = order['number']
         self.delivery_time_from = order['delivery_time_from']
@@ -26,19 +26,19 @@ class MessageTemplate:
         self.trade_point_card = order['trade_point_card']
         self.delivery_adress = order['delivery_adress']
 
-    def format(self, message):
+    def format(self, message: str) -> dict:
         return {
             "number": self.number,
             "message": message
         }
 
-    def pretty_pay_status(self):
+    def pretty_pay_status(self) -> str:
         if self.pay_status == 'CONFIRMED':
             return 'оплачен'
         else:
             return 'не оплачен'
 
-    def message(self):
+    def message(self) -> dict:
         match self.status:
             case StatusMessage.accepted_operator:
                 if self.delivery_method == 'Курьер':

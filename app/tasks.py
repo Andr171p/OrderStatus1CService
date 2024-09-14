@@ -14,4 +14,5 @@ async def get_status() -> None:
     logging.info(orders)
     if not is_empty(data=orders):
         for order in orders:
+            print(f"number: {order['number']}")
             await pusher.push(data=order)
