@@ -1,4 +1,5 @@
 class StatusMessage:
+    new = "Новый"
     accepted_operator = "Принят оператором"
     transferred_to_the_kitchen = "Передан на кухню"
     prepare = "Готовится"
@@ -25,11 +26,18 @@ class MessageTemplate:
         self.date = order['date']
         self.trade_point_card = order['trade_point_card']
         self.delivery_adress = order['delivery_adress']
+        self.telefon = order['phones'][-1]
+        self.pay_link = order['pay_link']
+        self.project = order['project']
 
     def format(self, message: str) -> dict:
         return {
             "number": self.number,
-            "message": message
+            "message": message,
+            "telefon": self.telefon,
+            "pay_link": self.pay_link,
+            "project": self.project,
+            "status": self.status
         }
 
     def pretty_pay_status(self) -> str:
@@ -40,6 +48,11 @@ class MessageTemplate:
 
     def message(self) -> dict:
         match self.status:
+            case StatusMessage.new:
+                message = (f"Мы получили Ваш заказ №{self.number} и уже начали\n"
+                           f"обрабатывать его. Как только оператор заполнит всю\n"
+                           f"информацию, Вы получите сообщение с деталями заказа.")
+                return self.format(message=message)
             case StatusMessage.accepted_operator:
                 if self.delivery_method == 'Курьер':
                     message = (f"Ваш заказ №{self.number} принят и будет\n"

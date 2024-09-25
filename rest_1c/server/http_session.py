@@ -1,15 +1,14 @@
 import aiohttp
 
-import logging
+from loguru import logger
 
 from rest_1c.settings.config import RequestHeaders, RequestLoggingMessage
 
 
 class HTTPSession(RequestHeaders):
-    logging.basicConfig(level=logging.INFO)
 
     @staticmethod
-    def is_ok(response):
+    def is_ok(response) -> bool:
         status = response.status
         if status == 200:
             return True
@@ -27,7 +26,7 @@ class HTTPSession(RequestHeaders):
                 ) as response:
                     if self.is_ok(response=response):
                         result = await response.json()
-                        logging.info(RequestLoggingMessage.successful_response)
+                        logger.info(RequestLoggingMessage.successful_response)
                         return result
         except Exception as _ex:
-            logging.warning(_ex)
+            logger.warning(_ex)

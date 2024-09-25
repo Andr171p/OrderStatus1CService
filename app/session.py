@@ -7,14 +7,15 @@ class Periodic:
     is_started = False
     _task = None
 
-    def __init__(self, func, timeout: int) -> None:
+    def __init__(self, func: callable, timeout: int) -> None:
         self.timeout = timeout
         self.func = func
 
     async def start(self) -> None:
         if not self.is_started:
             self.is_started = True
-            self._task = asyncio.ensure_future(self._run())
+            # self._task = asyncio.ensure_future(self._run())
+            await self._run()
 
     async def stop(self) -> None:
         if self.is_started:

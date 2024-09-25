@@ -1,12 +1,11 @@
 import json
 
-import logging
+from loguru import logger
 
 from rest_1c.settings.config import RequestLoggingMessage
 
 
 request_logging = RequestLoggingMessage()
-logging.basicConfig(level=logging.INFO)
 
 
 def extract_orders_data(json_):
@@ -14,10 +13,10 @@ def extract_orders_data(json_):
         _json = json.dumps(json_, ensure_ascii=False)
         _dict = json.loads(_json)
         orders = _dict['data']['orders']
-        logging.info(orders)
+        logger.info(orders)
         return orders
     else:
-        logging.warning(request_logging.none_json_response)
+        logger.warning(request_logging.none_json_response)
         return -1
 
 
@@ -26,7 +25,7 @@ def extract_flyers_data(json_):
         _json = json.dumps(json_, ensure_ascii=False)
         _dict = json.loads(_json)
         flyers = _dict['data']
-        logging.info(flyers)
+        logger.info(flyers)
         return flyers
     else:
         return -1

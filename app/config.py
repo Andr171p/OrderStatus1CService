@@ -1,2 +1,3 @@
 class TaskConfig:
     TIME_INTERVAL_PER_SECS = 60
+    SERVICE_ERROR_TIMEOUT = 180

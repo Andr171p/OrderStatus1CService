@@ -10,6 +10,8 @@ from misc.format_data import format_telefon
 
 from typing import List
 
+from loguru import logger
+
 
 class StatusAPI(HTTPSession):
     def __init__(self):
@@ -23,8 +25,9 @@ class StatusAPI(HTTPSession):
             'telefon': f'{telefon}'
         }
         data = request_models.OrderModel.model_validate(data)
-        response = await self.post_request(data=data.model_dump())
-        return response
+        order = await self.post_request(data=data.model_dump())
+        logger.info(order)
+        return order
 
     async def orders(self) -> List[dict]:
         data = {
@@ -34,6 +37,7 @@ class StatusAPI(HTTPSession):
         data = request_models.OrdersModel.model_validate(data)
         response = await self.post_request(data=data.model_dump())
         orders = extract_orders_data(json_=response)
+        logger.info(orders)
         return orders
 
     async def flyers(self, telefon: str) -> dict:
@@ -46,6 +50,7 @@ class StatusAPI(HTTPSession):
         data = request_models.FlyerModel.model_validate(data)
         response = await self.post_request(data=data.model_dump())
         flyers = extract_flyers_data(json_=response)
+        logger.info(flyers)
         return flyers
 
     async def history(self, telefon: str) -> dict:
@@ -56,8 +61,13 @@ class StatusAPI(HTTPSession):
             'project': f'{self.request_headers.project}'
         }
         data = request_models.HistoryModel.model_validate(data)
-        response = await self.post_request(data=data.model_dump())
-        return response
+        history = await self.post_request(data=data.model_dump())
+        logger.info(history)
+        return history
 
 
 status_api = StatusAPI()
+
+'''import asyncio
+o = asyncio.run(status_api.orders())
+print(o)'''

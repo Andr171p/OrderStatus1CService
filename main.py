@@ -1,10 +1,10 @@
 import asyncio
 
-from app.worker import work
+from app.worker import start
 
 
 async def main() -> None:
-    await work()
+    await start()
 
 
 if __name__ == "__main__":

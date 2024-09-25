@@ -2,24 +2,27 @@ from app.session import Periodic
 from app.tasks import get_status
 from app.config import TaskConfig
 
-import logging
+from loguru import logger
+
+import asyncio
 
 
-logging.basicConfig(level=logging.INFO)
-
-
-async def work() -> None:
+async def start() -> None:
     periodic = Periodic(
-        func=await get_status(),
+        func=get_status,
         timeout=TaskConfig.TIME_INTERVAL_PER_SECS
     )
     try:
-        logging.info("APP WAS STARTED...")
+        logger.info("SERVICE WAS STARTED...")
         await periodic.start()
     except Exception as _ex:
-        logging.info("APP ERROR")
-        logging.warning(_ex)
+        logger.info("SERVICE ERROR")
+        logger.warning(_ex)
         await periodic.stop()
     finally:
         await periodic.stop()
-        logging.info("APP WAS STOPPED...")
+        logger.info("SERVICE WAS STOPPED...")
+        logger.info(f"SERVICE ERROR WAITING TIMEOUT: {TaskConfig.SERVICE_ERROR_TIMEOUT}")
+        await asyncio.sleep(TaskConfig.SERVICE_ERROR_TIMEOUT)
+        logger.info("SERVICE RESTART...")
+        await start()

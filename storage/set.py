@@ -17,37 +17,31 @@ class RedisSetData:
 
     async def is_unique(self, key: str, message: str) -> bool:
         value = await self.connection.hget(key, "value")
-        print(value.decode('utf-8'))
         return True if value.decode('utf-8') != message else False
 
+    async def mapping(
+            self, key: str, value: str, telefon: str, pay_link: str, project: str, status: str
+    ) -> None:
+        await self.connection.hset(
+            name=key,
+            mapping={
+                "value": value,
+                "timestamp": timestamp(),
+                "telefon": telefon,
+                "pay_link": pay_link,
+                "project": project,
+                "status": status
+            }
+        )
+
     async def set_data(
-            self, key: str, value: str, expire_flag: bool = False
+            self, key: str, value: str, telefon: str, pay_link: str, project: str, status: str
     ) -> None:
         if await self.is_exists(key=key):
-            print("key exists")
             if await self.is_unique(key=key, message=value):
-                print("value is unique")
-                # await self.connection.set(key, value)
-                print(f"value: {value}")
                 await self.connection.delete(key)
-                await self.connection.hset(
-                    name=key,
-                    mapping={
-                        "value": value,
-                        "timestamp": timestamp()
-                    }
-                )
-                print("+")
-                if expire_flag:
-                    await self.connection.expire(key, self.EXPIRE_TIMEOUT)
+                await self.mapping(key, value, telefon, pay_link, project, status)
             else:
-                print("value exists")
+                pass
         else:
-            # await self.connection.set(key, value)
-            await self.connection.hset(
-                key,
-                mapping={
-                    "value": value,
-                    "timestamp": timestamp()
-                }
-            )
+            await self.mapping(key, value, telefon, pay_link, project, status)

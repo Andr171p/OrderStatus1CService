@@ -3,6 +3,8 @@ from storage.set import RedisSetData
 
 from misc.tamplates import MessageTemplate
 
+from loguru import logger
+
 
 class PushMessage:
     connection = RedisConnection()
@@ -18,11 +20,16 @@ class PushMessage:
     async def push(cls, data: dict) -> None:
         cls.redis = await cls.connect()
         message = MessageTemplate(order=data).message()
-        print(message)
+        logger.info(message)
         await cls.redis.set_data(
             key=message['number'],
-            value=message['message']
+            value=message['message'],
+            telefon=message['telefon'],
+            pay_link=message['pay_link'],
+            project=message['project'],
+            status=message['status']
         )
+        logger.info("REDIS SET DATA SUCCESSFULLY")
 
 
 pusher = PushMessage()
