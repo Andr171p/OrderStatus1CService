@@ -3,8 +3,6 @@ from redis import Redis
 
 from storage.settings.network import ConnectData
 
-import asyncio
-
 
 class RedisConnection:
     REDIS_URL = ConnectData.REDIS_URL
@@ -17,8 +15,7 @@ class RedisConnection:
 
     @classmethod
     async def close(cls) -> None:
-        cls.redis.close()
-        await cls.redis.wait_closed()
+        await cls.redis.close()
 
 
 redis_connection = RedisConnection()

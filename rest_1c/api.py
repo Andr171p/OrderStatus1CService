@@ -68,6 +68,6 @@ class StatusAPI(HTTPSession):
 
 status_api = StatusAPI()
 
-'''import asyncio
+import asyncio
 o = asyncio.run(status_api.orders())
-print(o)'''
+print(o)

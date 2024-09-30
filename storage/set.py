@@ -45,3 +45,4 @@ class RedisSetData:
                 pass
         else:
             await self.mapping(key, value, telefon, pay_link, project, status)
+        await self.connection.close()
