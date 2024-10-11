@@ -1,3 +1,12 @@
+from misc.format_data import (
+    format_telefon,
+    format_order_number,
+    format_order_date,
+    format_order_time,
+    format_trade_card
+)
+
+
 class StatusMessage:
     new = "Новый"
     accepted_operator = "Принят оператором"
@@ -15,18 +24,18 @@ class StatusMessage:
 class MessageTemplate:
     def __init__(self, order: dict) -> None:
         self.status = order['status']
-        self.number = order['number']
-        self.delivery_time_from = order['delivery_time_from']
-        self.delivery_time_to = order['delivery_time_to']
+        self.number = format_order_number(order['number'])
+        self.delivery_time_from = format_order_time(order['delivery_time_from'])
+        self.delivery_time_to = format_order_time(order['delivery_time_to'])
         self.amount = order['amount']
         self.pay_status = order['pay_status']
-        self.cooking_time_to = order['cooking_time_to']
+        self.cooking_time_to = format_order_time(order['cooking_time_to'])
         self.trade_point = order['trade_point']
         self.delivery_method = order['delivery_method']
         self.date = order['date']
-        self.trade_point_card = order['trade_point_card']
+        self.trade_point_card = format_trade_card(order['trade_point_card'])
         self.delivery_adress = order['delivery_adress']
-        self.telefon = order['phones'][-1]
+        self.telefon = format_telefon(order['phones'][-1])
         self.pay_link = order['pay_link']
         self.project = order['project']
 
